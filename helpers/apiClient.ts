@@ -3,6 +3,10 @@ import { APIResponse, request } from "@playwright/test";
 export type ApiClient = {
   createProject: (name?: string) => Promise<APIResponse>;
   deleteAllProjects: () => Promise<void>;
+  addKeyToProject: (
+    projectId: string,
+    keyName?: string
+  ) => Promise<APIResponse>;
 };
 
 export const getClient = async (): Promise<ApiClient> => {
@@ -40,6 +44,20 @@ export const getClient = async (): Promise<ApiClient> => {
       for (const project of projectsId) {
         await context.delete(`/api2/projects/${project}`);
       }
+    },
+    addKeyToProject: async (projectId: string, keyName?: string) => {
+      return await context.post(`/api2/projects/${projectId}/keys`, {
+        data: {
+          keys: [
+            {
+              key_name: keyName || "Default key name",
+              description: "Description",
+              platforms: ["web"],
+              tags: ["default"],
+            },
+          ],
+        },
+      });
     },
   };
 };
