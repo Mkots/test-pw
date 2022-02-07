@@ -1,2 +1,2 @@
-export {authorize} from "./authorization";
-export {getClient} from "./apiClient"
+export { authorize } from "./authorization";
+export { getClient, ApiClient } from "./apiClient";
