@@ -15,6 +15,7 @@
   "rules": {
     "playwright/missing-playwright-await": ["error"],
     "playwright/no-page-pause": ["warn"],
-    "prettier/prettier": "error"
+    "prettier/prettier": "error",
+    "@typescript-eslint/no-unused-vars": "error"
   }
 }

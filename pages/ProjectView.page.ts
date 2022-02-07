@@ -8,6 +8,8 @@ export class ProjectView {
   readonly keyContainer: Locator;
   readonly currentKeyName: Locator;
 
+  readonly translationFieldBtn: Locator; // TODO: find better names
+  readonly translationField: Locator; // TODO: find better names
   readonly saveTranslationBtn: Locator;
 
   private static currentBreadcrumbSelector =
@@ -16,6 +18,8 @@ export class ProjectView {
   private static keyContainerSelector = ".row-key";
   private static currentKeyNameSelector = ".edit-key";
 
+  private static translationFieldBtnSelector = ".cell-trans .highlight";
+  private static translationFieldSelector = ".CodeMirror-line";
   private static saveTranslationBtnSelector = "button.save";
 
   constructor(page) {
@@ -29,6 +33,10 @@ export class ProjectView {
       `${ProjectView.keyContainerSelector} ${ProjectView.currentKeyNameSelector}`
     );
 
+    this.translationFieldBtn = page.locator(
+      ProjectView.translationFieldBtnSelector
+    );
+    this.translationField = page.locator(ProjectView.translationFieldSelector);
     this.saveTranslationBtn = page.locator(
       ProjectView.saveTranslationBtnSelector
     );
@@ -49,5 +57,21 @@ export class ProjectView {
 
   async getCurrentKeyName() {
     return await this.currentKeyName.innerText();
+  }
+
+  async setOriginal(originalText?: string) {
+    await this.translationFieldBtn.first().click();
+    await this.translationField
+      .first()
+      .type(originalText || "Original text", { delay: 50 });
+    await this.saveTranslationBtn.first().click();
+  }
+
+  async setTranslation(translationText?: string) {
+    await this.translationFieldBtn.last().click();
+    await this.translationField
+      .first()
+      .type(translationText || "Текст перевода", { delay: 50 });
+    await this.saveTranslationBtn.first().click();
   }
 }
